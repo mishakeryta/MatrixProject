@@ -107,6 +107,18 @@ namespace MatrixProject
             }
             return strMatrix;
         }
+        static public Matrix operator+(Matrix matrix1,Matrix matrix2)
+        {
+            Matrix resultMatrix = null;
+            if (matrix1.Cols != matrix2.Cols || matrix1.Rows != matrix2.Rows)
+            {
+                throw new InappropriateMatrixSize();
+            }
+            try
+            {
+                
+            }
+        }
 
     }
 }
