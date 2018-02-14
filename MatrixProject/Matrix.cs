@@ -6,7 +6,7 @@ using System.Text;
 //It is matrix class
 namespace MatrixProject
 {
-    class Matrix
+     class Matrix
     {
         private double[,] element = null;
         private int Rows { get; protected set; }
@@ -64,12 +64,12 @@ namespace MatrixProject
             try
             {
                 this.element = new double[rows, cols];
-                for (int i = 0; i < elements.Length;++i)
+                for (int i = 0; i < elements.Length; ++i)
                 {
                     this.element[i / cols, i % cols] = elements[i];
                 }
             }
-            catch(OutOfMemoryException)
+            catch (OutOfMemoryException)
             {
                 throw;
             }
@@ -97,9 +97,9 @@ namespace MatrixProject
         public override string ToString()
         {
             string strMatrix = "";
-            for(int i = 0;i<this.Rows;++i)
+            for (int i = 0; i < this.Rows; ++i)
             {
-                for(int j = 0;j<this.Cols;++j)
+                for (int j = 0; j < this.Cols; ++j)
                 {
                     strMatrix += this.element[i, j].ToString + " ";
                 }
@@ -107,16 +107,40 @@ namespace MatrixProject
             }
             return strMatrix;
         }
-        static public Matrix operator+(Matrix matrix1,Matrix matrix2)
+        static public Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
+
             Matrix resultMatrix = null;
             if (matrix1.Cols != matrix2.Cols || matrix1.Rows != matrix2.Rows)
             {
                 throw new InappropriateMatrixSize();
             }
+
             try
             {
-                
+                resultMatrix = new Matrix(matrix1);
+                for (int i = 0; i < matrix1.Rows; ++i)
+
+                {
+                    for (int j = 0; j < matrix1.Cols; ++j)
+                    {
+                        resultMatrix[i][j] += matrix2[i][j];
+                    }
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public Matrix operator-(Matrix matrix)
+        {
+            resultMatrix = new Matrix(matrix);
+            //just a test....
+            foreach (double val in resultMatrix)
+            {
+                val = -val;
             }
         }
 

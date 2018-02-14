@@ -1,0 +1,2 @@
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.csprojResolveAssemblyReference.cache
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.csproj.CoreCompileInputs.cache
