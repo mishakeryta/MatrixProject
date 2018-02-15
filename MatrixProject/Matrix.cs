@@ -6,11 +6,11 @@ using System.Text;
 //It is matrix class
 namespace MatrixProject
 {
-     class Matrix
+    class Matrix
     {
         private double[,] element = null;
-        private int Rows { get; protected set; }
-        private int Cols { get; protected set; }
+        private int Rows { get; set; }
+        private int Cols { get; set; }
         public double this[int row, int col]
         {
             //i dont know ,if i skeep this try and catch there will it be awalible to program catch  
@@ -57,7 +57,7 @@ namespace MatrixProject
         }
         public Matrix(int rows, int cols, params double[] elements)
         {
-            if (rows == 0 || cols == 0)
+            if (rows <= 0 || cols <= 0)
             {
                 throw new ArgumentException("Matrix cant have 0 rows or(and) cols.");
             }
@@ -68,10 +68,6 @@ namespace MatrixProject
                 {
                     this.element[i / cols, i % cols] = elements[i];
                 }
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
             }
             catch
             {
@@ -91,8 +87,8 @@ namespace MatrixProject
                     this.element[i, j] = matrix[i, j];
                 }
             }
-            this.Rows = rows;
-            this.Cols = cols;
+            this.Rows = matrix.Rows;
+            this.Cols = matrix.Cols;
         }
         public override string ToString()
         {
@@ -101,7 +97,7 @@ namespace MatrixProject
             {
                 for (int j = 0; j < this.Cols; ++j)
                 {
-                    strMatrix += this.element[i, j].ToString + " ";
+                    strMatrix += this.element[i, j].ToString() + " ";
                 }
                 strMatrix += "\n";
             }
@@ -109,24 +105,23 @@ namespace MatrixProject
         }
         static public Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
-
-            Matrix resultMatrix = null;
-            if (matrix1.Cols != matrix2.Cols || matrix1.Rows != matrix2.Rows)
-            {
-                throw new InappropriateMatrixSize();
-            }
-
             try
             {
+                Matrix resultMatrix = null;
+                if (!IsAppropriateSize(matrix1,matrix2))
+                {
+                    throw new InappropriateMatrixSizeException();
+                }
                 resultMatrix = new Matrix(matrix1);
                 for (int i = 0; i < matrix1.Rows; ++i)
 
                 {
                     for (int j = 0; j < matrix1.Cols; ++j)
                     {
-                        resultMatrix[i][j] += matrix2[i][j];
+                        resultMatrix[i, j] += matrix2[i, j];
                     }
                 }
+                return resultMatrix;
 
             }
             catch
@@ -134,15 +129,73 @@ namespace MatrixProject
                 throw;
             }
         }
-        public Matrix operator-(Matrix matrix)
+        static public Matrix operator +(Matrix matrix)
         {
-            resultMatrix = new Matrix(matrix);
-            //just a test....
-            foreach (double val in resultMatrix)
+            return new Matrix(matrix);
+        }
+        static public Matrix operator -(Matrix matrix1, Matrix matrix2)
+        {
+            try
             {
-                val = -val;
+                if (!IsAppropriateSize(matrix1,matrix2))
+                {
+                    throw new InappropriateMatrixSizeException();
+                }
+                Matrix resultMatrix = new Matrix(matrix1.Rows,matrix1.Cols);
+                for(int i = 0;i<matrix1.Rows;++i)
+                {
+                    for(int j = 0;j<matrix1.Cols;++j)
+                    {
+                        resultMatrix[i, j] = matrix1[i, j] - matrix2[i, j]; 
+                    }
+                }
+                return resultMatrix;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        static public Matrix operator -(Matrix matrix)
+        {
+            try
+            {
+                Matrix resultMatrix = new Matrix(matrix.Rows, matrix.Cols);
+                for (int i = 0; i < resultMatrix.Rows; ++i)
+                {
+                    for (int j = 0; j < resultMatrix.Cols; ++j)
+                    {
+                        resultMatrix[i, j] = -matrix[i, j];
+                    }
+                }
+                return resultMatrix;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        static public Matrix operator *(Matrix matrix1,Matrix matrix2)
+        {
+            try
+            {
+                if(matrix1.Cols != matrix2.Rows)
+                {
+                    throw new InappropriateMatrixSizeException("You cant multiplex matrix with diferent cols adn rows(It is Beta meessge)");
+                }
+                
             }
         }
 
+        static public bool IsAppropriateSize(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.Cols != matrix2.Cols || matrix1.Rows != matrix2.Rows)
+            {
+                return false;
+            }
+            return true;
+
+        }
     }
+
 }

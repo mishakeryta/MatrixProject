@@ -1,2 +1,6 @@
 C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.csprojResolveAssemblyReference.cache
 C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.csproj.CoreCompileInputs.cache
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\bin\Debug\MatrixProject.exe
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\bin\Debug\MatrixProject.pdb
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.exe
+C:\study\StudyByMySelf\Git_Hub\MatrixProject\MatrixProject\obj\Debug\MatrixProject.pdb
