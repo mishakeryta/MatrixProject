@@ -23,7 +23,7 @@ class Array
     double findMaxNegativeValue()const;
     double findMinPositiveValue() const;
     Array& operator*=(double val1);
-    Array& operator-=(const Array array2);
+    Array& operator-=(const Array& array2);
     friend Array operator+(const Array& array1,const Array& array2);
     friend Array operator-(const Array& array1,const Array& array2);
     friend Array operator*(double val1,const Array& array);

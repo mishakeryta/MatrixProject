@@ -59,10 +59,12 @@ double& Array::operator[](unsigned int index)
 Array& Array::setLength(unsigned int lenght)
 {
     double* tmp = new double[lenght]{};
+
     for(unsigned int i = 0;i<lenght && i<m_lenght;++i)
     {
         tmp[i] = m_elements[i];
     }
+    m_lenght = lenght;
     delete[] m_elements;
     m_elements = tmp;
     return *this;
@@ -174,7 +176,7 @@ Array operator *(double val1,const Array& array1)
 }
 Array& Array::operator *=(double val1)
 {
-    for(unsigned int i = 0;i<array1.getLength();++i)
+    for(unsigned int i = 0;i<getLength();++i)
     {
         m_elements[i] *= val1;
     }

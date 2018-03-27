@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include "array.hpp"
+#include <QMainWindow>
+#include<QDebug>
 using namespace  std;
 
 #define PERCISION 0.000000001
@@ -24,14 +26,14 @@ public:
     unsigned int findIndexMaxAbsValueInColumn(unsigned int column,unsigned int startRow) const;
     Matrix& setRows(int rows); //resize matrix
     Matrix& setCols(int cols);
-    friend Matrix transpose(const Matrix& matrix );
-    friend Matrix inverse(const Matrix& matrix);
-    friend double determinant(const Matrix& matrix);
+    Matrix transpose();
+    Matrix inverse();
+    double determinant();
     inline friend bool isSizeEquele(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator+(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator-(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator*(const Matrix& matrix1,const Matrix& matrix2);
-
+    friend QString& operator <<(QString& str,const Matrix& matrix);
 
 private:
     Array* m_elements;

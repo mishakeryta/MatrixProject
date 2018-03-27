@@ -1,23 +1,23 @@
 #include "matrix.hpp"
 
-
-Matrix::Matrix(unsigned int rows,unsigned int cols)
+Matrix::Matrix(unsigned int rows,unsigned int cols):m_rows{rows},m_cols{cols}
 {
     m_elements = new Array[rows]();
     for(unsigned int i = 0;i < rows; ++i)
     {
         m_elements[i].setLength(cols);
     }
+
 }
-Matrix::Matrix(const Matrix &matrix)
+Matrix::Matrix(const Matrix &matrix):m_rows{matrix.getRows()},m_cols{matrix.getCols()}
 {
     m_elements = new Array[matrix.getRows()]();
-    for(unsigned int i = 0;i<matrix.getRows();++i)
+    for(unsigned int i = 0;i < matrix.getRows();++i)
     {
         m_elements[i].setLength(matrix.getCols());
         for(unsigned int j = 0;j< matrix.getCols();++j)
         {
-            m_elements[i][j] = matrix[i][j];
+           (*this)[i][j] = matrix[i][j];
         }
     }
 }
@@ -91,11 +91,11 @@ Matrix operator * (const Matrix& matrix1, const Matrix& matrix2)
     return result;
 }
 
-double  determinant(const Matrix& matrix)
+double  Matrix::determinant()
 {
-    if(matrix.getCols()!= matrix.getRows()) throw logic_error("Only squere matrix have determinant.");
+    if(this->getCols()!= this->getRows()) throw logic_error("Only squere matrix have determinant.");
     double det = 1;
-    Matrix tmpMatrix{matrix};
+    Matrix tmpMatrix{*this};
     for(unsigned int mid = 0;mid < tmpMatrix.getCols(); ++mid)
     {
         det *= tmpMatrix[mid][mid];
@@ -107,11 +107,17 @@ double  determinant(const Matrix& matrix)
         {
             return 0;
         }
-        for(unsigned int row = mid + 1;row < matrix.getCols();++row)
+        for(unsigned int row = mid + 1;row < this->getCols();++row)
         {
-            tmpMatrix[row]*=tmpMatrix[i][i]/tmpMatrix[i][row];
-            tmpMatrix[row]-=tmpMatrix[i];
+            if(tmpMatrix[row][mid])
+            {
+                double coef  = tmpMatrix[mid][mid]/tmpMatrix[row][mid];
+                tmpMatrix[row]*=coef;
+                tmpMatrix[row]-=tmpMatrix[mid];
+                tmpMatrix[row]*=(1/coef);
+            }
         }
+
     }
     return det;
 }
@@ -129,4 +135,17 @@ unsigned int Matrix::findIndexMaxAbsValueInColumn(unsigned int column,unsigned i
         }
     }
     return result;
+}
+
+QString& operator <<(QString& string,const Matrix& matrix)
+{
+    for(int i = 0;i < matrix.getRows(); ++i)
+    {
+        for(int j = 0;j < matrix.getCols(); ++j)
+        {
+            string+=" "+QString::fromStdString(to_string(matrix[i][j]));
+        }
+        string+="\n";
+    }
+    return string;
 }
