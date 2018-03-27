@@ -126,12 +126,68 @@ double Array::findMaxAbsValue() const
     double max = m_elements[0];
     for(unsigned int i = 1;i < m_lenght; ++i)
     {
-        if(abs(m_elements[i]) > abs(max))
+        if(fabs(m_elements[i]) > fabs(max))
         {
             max = m_elements[i];
         }
     }
     return max;
+}
+void Array::swap(Array &array1, Array &array2)
+{
+    if(array1.getLength() != array2.getLength())
+        throw logic_error("Inappropriate arrays length, can\'t swap.");
+    for(unsigned int i = 0;i<array1.getLength();++i)
+    {
+        std::swap(array1[i],array2[i]);
+    }
+}
+
+Array operator +(const Array& array1,const Array& array2)
+{
+    if(array1.getLength()!=array2.getLength()) throw logic_error("Cant add, inappropriate length");
+    Array result(array1.getLength());
+    for(unsigned int i = 0;i<array1.getLength();++i)
+    {
+        result[i] = array1[i] + array2[i];
+    }
+    return result;
+}
+Array operator -(const Array& array1,const Array& array2)
+{
+    if(array1.getLength()!=array2.getLength()) throw logic_error("Cant add, inappropriate length");
+    Array result(array1.getLength());
+    for(unsigned int i = 0;i<array1.getLength();++i)
+    {
+        result[i] = array1[i] - array2[i];
+    }
+    return result;
+}
+Array operator *(double val1,const Array& array1)
+{
+    Array result(array1.getLength());
+    for(unsigned int i = 0;i<array1.getLength();++i)
+    {
+        result[i] = val1*array1[i];
+    }
+    return result;
+}
+Array& Array::operator *=(double val1)
+{
+    for(unsigned int i = 0;i<array1.getLength();++i)
+    {
+        m_elements[i] *= val1;
+    }
+    return *this;
+}
+Array& Array::operator -=(const Array& array2)
+{
+    if(m_lenght != array2.getLength()) throw logic_error("Inappropriate arrays size");
+    for(unsigned int i = 0;i<array2.getLength();++i)
+    {
+        m_elements[i] -= array2[i];
+    }
+    return *this;
 }
 
 

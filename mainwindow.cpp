@@ -12,3 +12,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_pbtRead_clicked()
+{
+    QString qsMatrix  = ui->pteMatrix->toPlainText();
+    QRegExp rx("[ ]");
+
+}
