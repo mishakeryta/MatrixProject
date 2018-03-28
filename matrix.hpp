@@ -36,8 +36,8 @@ public:
     inline friend bool isSizeEquele(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator+(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator+(const Matrix& matrix1,double val);
-    inline Matrix operator++() const;
-    inline Matrix operator--() const;
+    Matrix operator++() const;
+    Matrix operator--() const;
     friend Matrix operator -(const Matrix& matrix);
     inline friend Matrix operator+(double val, const Matrix& matrix1);
     friend Matrix operator-(const Matrix& matrix1,const Matrix& matrix2);

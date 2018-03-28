@@ -74,10 +74,8 @@ Matrix operator+(const Matrix& matrix,double val)
     Matrix result(matrix);
     for(unsigned int i = 0;i<matrix.getRows();++i)
     {
-        for(unsigned int j = 0;j<matrix.getCols();++j)
-        {
-            result[i][j]+=val;
-        }
+
+            result[i][i]+=val;
     }
     return result;
 }

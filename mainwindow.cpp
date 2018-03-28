@@ -98,7 +98,7 @@ void MainWindow::on_btnCaluclate_clicked()
         }
         if(ui->rbMulti->isChecked())
         {
-            outstr+="Matrix1 - Matrix2 = \n";
+            outstr+="Matrix1 * Matrix2 = \n";
             try
             {
                 outstr<<(matrix*matrix2);
@@ -111,6 +111,22 @@ void MainWindow::on_btnCaluclate_clicked()
             {
                 throw;
             }
+        }
+        if(ui->rbPlusPlus->isChecked())
+        {
+            try
+            {
+                outstr<<(matrix.operator ++());
+            }
+            catch(logic_error er )
+            {
+                outstr+="Fail\n";
+            }
+            catch(...)
+            {
+                throw;
+            }
+
         }
 
     }
