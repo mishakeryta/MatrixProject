@@ -67,6 +67,7 @@ Array& Array::setLength(unsigned int lenght)
     m_lenght = lenght;
     delete[] m_elements;
     m_elements = tmp;
+    tmp = nullptr;
     return *this;
 }
 
@@ -98,7 +99,6 @@ double Array::findMaxNegativeValue() const
             }
         }
     }
-    if(max>0) throw logic_error("No negative.");
     return max;
 }
 
@@ -119,7 +119,6 @@ double Array::findMinPositiveValue() const
             }
         }
     }
-    if(min>0) throw logic_error("No positive");
     return min;
 }
 
@@ -135,14 +134,10 @@ double Array::findMaxAbsValue() const
     }
     return max;
 }
-void Array::swap(Array &array1, Array &array2)
+void swap_arrays(Array &array1, Array &array2)
 {
-    if(array1.getLength() != array2.getLength())
-        throw logic_error("Inappropriate arrays length, can\'t swap.");
-    for(unsigned int i = 0;i<array1.getLength();++i)
-    {
-        std::swap(array1[i],array2[i]);
-    }
+    swap(array1.m_elements,array2.m_elements);
+    swap(array1.m_lenght,array2.m_lenght);
 }
 
 Array operator +(const Array& array1,const Array& array2)
@@ -182,6 +177,11 @@ Array& Array::operator *=(double val1)
     }
     return *this;
 }
+Array& Array::operator=(Array&& array)
+{
+    swap_arrays(*this,array);
+}
+
 Array& Array::operator -=(const Array& array2)
 {
     if(m_lenght != array2.getLength()) throw logic_error("Inappropriate arrays size");

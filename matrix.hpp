@@ -14,26 +14,38 @@ public:
     Matrix(unsigned int order):Matrix(order,order) {  }
     Matrix(const Matrix& matrix);
     ~Matrix(){delete[] m_elements;}
-    unsigned int getRows() const { return m_rows; }
-    unsigned int getCols() const { return m_cols; }
+
     const Array& operator[](unsigned int row) const;
     Array& operator[](unsigned int row);
 
-    double findMaxValue() const;
     double findMaxAbsValue() const;
     double findMaxNegativeValue()const;
     double findMinPositiveValue() const;
     unsigned int findIndexMaxAbsValueInColumn(unsigned int column,unsigned int startRow) const;
-    Matrix& setRows(int rows); //resize matrix
-    Matrix& setCols(int cols);
+
+    Matrix& setRows(unsigned int rows); //resize matrix
+    Matrix& setCols(unsigned int cols);
+    unsigned int getRows() const { return m_rows; }
+    unsigned int getCols() const { return m_cols; }
+
     Matrix transpose();
     Matrix inverse();
     double determinant();
+    Matrix minor(unsigned int row,unsigned int col);
     inline friend bool isSizeEquele(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator+(const Matrix& matrix1,const Matrix& matrix2);
+    friend Matrix operator+(const Matrix& matrix1,double val);
+    inline Matrix operator++() const;
+    inline Matrix operator--() const;
+    friend Matrix operator -(const Matrix& matrix);
+    inline friend Matrix operator+(double val, const Matrix& matrix1);
     friend Matrix operator-(const Matrix& matrix1,const Matrix& matrix2);
     friend Matrix operator*(const Matrix& matrix1,const Matrix& matrix2);
+
+    friend Matrix& operator >>(const QString& str,Matrix& matrix);
+    inline friend Matrix& operator <<(Matrix& matrix,const QString& str);
     friend QString& operator <<(QString& str,const Matrix& matrix);
+    inline friend QString& operator >> (const Matrix& matrix,QString& str);
 
 private:
     Array* m_elements;

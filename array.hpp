@@ -27,12 +27,13 @@ class Array
     friend Array operator+(const Array& array1,const Array& array2);
     friend Array operator-(const Array& array1,const Array& array2);
     friend Array operator*(double val1,const Array& array);
+    Array& operator = (Array&& array);
 
     Array& setLength(unsigned int length);
     unsigned int getLength() const  {return m_lenght;}
     const double& operator[](unsigned int index) const;
     double& operator[](unsigned int index);
-    static void swap(Array& array1,Array& array2);
+    friend void swap_arrays(Array& array1,Array& array2);
 
 
 
