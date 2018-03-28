@@ -2,6 +2,7 @@
 #define MATRIX_H
 #include "array.hpp"
 #include <QMainWindow>
+#include <QTableWidget>
 #include<QDebug>
 using namespace  std;
 
@@ -46,6 +47,8 @@ public:
     inline friend Matrix& operator <<(Matrix& matrix,const QString& str);
     friend QString& operator <<(QString& str,const Matrix& matrix);
     inline friend QString& operator >> (const Matrix& matrix,QString& str);
+    friend Matrix& operator << (Matrix& matrix,const QTableWidget* tbMatrix);
+    friend QTableWidget* operator>>(const Matrix& matrix,QTableWidget* tbMatrix);
 
 private:
     Array* m_elements;

@@ -17,7 +17,15 @@ public:
 
 
 private slots:
-    void on_pbtRead_clicked();
+    void on_btnCaluclate_clicked();
+
+    void on_btSubtructCol_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_brSubract_clicked();
+
+    void on_btAddRow_clicked();
 
 private:
     Ui::MainWindow *ui;

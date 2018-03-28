@@ -168,9 +168,9 @@ Matrix Matrix::minor(unsigned int row,unsigned int col)
 Matrix Matrix::transpose()
 {
     Matrix result(m_cols,m_rows);
-    for(int i = 0;i<m_rows;++i)
+    for(unsigned int i = 0;i<m_rows;++i)
     {
-        for(int j = 0;j<m_cols;++j)
+        for(unsigned int j = 0;j<m_cols;++j)
         {
             result[j][i] = m_elements[i][j];
         }
@@ -222,7 +222,7 @@ unsigned int Matrix::findIndexMaxAbsValueInColumn(unsigned int column,unsigned i
 double Matrix::findMaxAbsValue() const
 {
     double result = m_elements[0].findMaxAbsValue();
-    for(int i = 1;i<m_rows;++i)
+    for(unsigned int i = 1;i<m_rows;++i)
     {
         double tmp = m_elements[i].findMaxAbsValue();
         if(fabs(tmp)>fabs(result))
@@ -235,7 +235,7 @@ double Matrix::findMaxAbsValue() const
 double Matrix::findMaxNegativeValue() const
 {
     double result = m_elements[0].findMaxNegativeValue();
-    for(int i = 1;i<m_rows;++i)
+    for(unsigned int i = 1;i<m_rows;++i)
     {
         double tmp = m_elements[i].findMaxNegativeValue();
         if(result>=0)
@@ -247,7 +247,7 @@ double Matrix::findMaxNegativeValue() const
         }
         else
         {
-            if(tmp>result)
+            if(tmp<0 && tmp>result)
             {
                 result = tmp;
             }
@@ -258,7 +258,7 @@ double Matrix::findMaxNegativeValue() const
 double Matrix::findMinPositiveValue() const
 {
     double result = m_elements[0].findMinPositiveValue();
-    for(int i = 1;i<m_rows;++i)
+    for(unsigned int i = 1;i<m_rows;++i)
     {
         double tmp = m_elements[i].findMinPositiveValue();
         if(result<0)
@@ -329,20 +329,22 @@ Matrix& operator<<(Matrix& matrix,const QString& str)
 Matrix& Matrix::setCols(unsigned int cols)
 {
     if(cols == 0) cols = 1;
-    for(int i = 0;i<m_rows;++i)
+    for(unsigned int i = 0;i<m_rows;++i)
     {
         m_elements[i].setLength(cols);
     }
     m_cols = cols;
+    return *this;
 }
+
 Matrix& Matrix::setRows(unsigned int rows)
 {
     if(rows == 0) rows =1;
     Array* new_elements = new Array[rows]{};
-    for(int i = 0;i < rows && i < m_rows;++i)
+    for(unsigned int i = 0;i < rows && i < m_rows;++i)
     {
         new_elements[i].setLength(m_cols);
-        for(int j = 0;j < m_cols;++j)
+        for(unsigned int j = 0;j < m_cols;++j)
         {
             new_elements[i][j] = m_elements[i][j];
         }
@@ -350,7 +352,36 @@ Matrix& Matrix::setRows(unsigned int rows)
     m_rows = rows;
     delete[]m_elements;
     m_elements = new_elements;
+    setCols(m_cols);
     new_elements = nullptr;
     return *this;
 }
+
+Matrix& operator<<(Matrix& matrix,const QTableWidget* tbMatrix)
+{
+    matrix.setRows(tbMatrix->rowCount());
+    matrix.setCols(tbMatrix->columnCount());
+    for(int i = 0;i < tbMatrix->rowCount();++i)
+    {
+        for(int j = 0;j < tbMatrix->columnCount();++j)
+        {
+            matrix[i][j] = tbMatrix->item(i,j)->text().toDouble();
+        }
+    }
+    return matrix;
+}
+QTableWidget* operator>>(const Matrix& matrix,QTableWidget* tbMatrix)
+{
+    tbMatrix->setRowCount(matrix.getRows());
+    tbMatrix->setColumnCount(matrix.getCols());
+    for(int i = 0;i<matrix.getRows();++i)
+    {
+        for(int j = 0;j<matrix.getCols();++j)
+        {
+            tbMatrix->item(i,j)->setText(QString::fromStdString(to_string(matrix[i][j])));
+        }
+    }
+    return tbMatrix;
+}
+
 
