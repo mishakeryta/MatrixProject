@@ -2,11 +2,22 @@
 
 
 
+Matrix::Matrix(const Matrix &matrix):m_rowsCount{matrix.getRowsCount()},
+    m_colsCount{matrix.getRowsCount()}{
+    m_elements = new double*[matrix.getRowsCount()]{};
+    for(unsigned int row = 0;row < matrix.getRowsCount();++row)
+    {
+        m_elements[row] = new double[matrix.getColsCount()]{};
+        for(unsigned int col = 0;col < matrix.getColsCount();++col)
+        {
+            m_elements[row][col] = matrix.at(row,col);
+        }
+    }
+}
 Matrix::Matrix(unsigned int rows, unsigned int cols):m_rowsCount{rows},m_colsCount{cols}
   ,m_elements{new double*[rows]}
 {
-    for(unsigned int i = 0;i<rows;++i)
-    {
+    for(unsigned int i = 0;i<rows;++i) {
         m_elements[i] = new double[cols]{};
     }
 }
@@ -62,5 +73,15 @@ double& Matrix::at(unsigned int row,unsigned int col)
 }
 const double& Matrix::at(unsigned int row, unsigned int col) const
 {
-    return this->at(row,col);
+    if(row>m_rowsCount || col>m_colsCount) throw out_of_range("Matrix::out_of_range");
+    return m_elements[row][col];
+}
+Matrix& Matrix::swapRows(unsigned int row1,unsigned int row2)
+{
+    if(row1 >= m_rowsCount || row2 >= m_rowsCount) throw out_of_range("Matrix::swapRows::out_of_range");
+    for(int col = 0;col < m_colsCount;++col)
+    {
+        swap(m_elements[row1][col] ,m_elements[row2][col]);
+    }
+    return *this;
 }

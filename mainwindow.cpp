@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Matrix.hpp"
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,12 +15,11 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->tMatrixA->rowCount()*ui->tMatrixA->rowHeight(0));
     ui->tMatrixA->setMaximumSize(6*ui->tMatrixA->columnWidth(0),6*ui->tMatrixA->rowHeight(0));
 
+
     ui->tMatrixB->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     ui->tMatrixB->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tMatrixB->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tMatrixB->setMaximumSize(ui->tMatrixB->columnWidth(0),6*ui->tMatrixB->rowHeight(0));
-
-
 }
 
 MainWindow::~MainWindow()
@@ -41,8 +40,6 @@ void MainWindow::on_pbtPlusSize_clicked()
         ui->tMatrixB->setRowCount(ui->tMatrixB->rowCount()+1);
         ui->tMatrixB->resize(ui->tMatrixB->columnCount()*ui->tMatrixB->columnWidth(0),
                          ui->tMatrixB->rowCount()*ui->tMatrixB->rowHeight(0));
-        //ui->tMatrixB->move(ui->tMatrixA->pos().rx() + ui->tMatrixA->width(),
-         //                  ui->tMatrixB->pos().ry());
     }
 
 }
@@ -58,10 +55,28 @@ void MainWindow::on_pbtMinusSize_clicked()
                              ui->tMatrixA->rowCount()*ui->tMatrixA->rowHeight(0));
 
         ui->tMatrixB->setRowCount(ui->tMatrixB->rowCount()-1);
+
         ui->tMatrixB->resize(ui->tMatrixB->columnCount()*ui->tMatrixB->columnWidth(0),
                          ui->tMatrixB->rowCount()*ui->tMatrixB->rowHeight(0));
-        //ui->tMatrixB->move(ui->tMatrixA->pos().rx() + ui->tMatrixA->width(),
-       //                    ui->tMatrixB->pos().ry());
     }
+
+}
+
+void MainWindow::on_pbtCslculate_clicked()
+{
+    Matrix matrixA = Matrix(ui->tMatrixA->rowCount(),ui->tMatrixB->rowCount());
+    vector<double> vectorB(ui->tMatrixB->rowCount());
+    for(unsigned int row = 0;row < matrixA.getRowsCount();++row)
+    {
+        for(unsigned int  col = 0; col < matrixA.getColsCount();++col)
+        {
+            matrixA.at(row,col) = ui->tMatrixA->item(row,col)->text().toDouble();
+        }
+        vectorB.at(row) = ui->tMatrixB->item(row,0)->text().toDouble();
+    }
+    string message = "";
+    RootFinder roots{matrixA,vectorB};
+    roots.FindRootsGauss(message);
+    ui->textBrowser->setPlainText(QString::fromStdString(message));
 
 }
