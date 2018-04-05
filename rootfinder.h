@@ -9,10 +9,12 @@ class RootFinder
 {
 public:
     RootFinder(Matrix matrixA, vector<double> vectorB);
-    vector<double> FindRootsGauss(string& message);
+
+    vector<double> findRootsGauss(string& message);
 private:
     Matrix m_matrixA;
     vector<double> m_vectorB;
+    RootFinder& toTriangel(string& message);
 };
 
 #endif // ROOTFINDER_H

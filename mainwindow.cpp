@@ -76,7 +76,7 @@ void MainWindow::on_pbtCslculate_clicked()
     }
     string message = "";
     RootFinder roots{matrixA,vectorB};
-    roots.FindRootsGauss(message);
+    roots.findRootsGauss(message);
     ui->textBrowser->setPlainText(QString::fromStdString(message));
 
 }

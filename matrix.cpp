@@ -43,20 +43,8 @@ Matrix::Matrix(initializer_list<initializer_list<double> > initList)
     m_rowsCount = initList.size();
     m_colsCount = colsCount;
 }
-/*Matrix::Matrix(const Matrix& matrix):m_rowsCount{matrix.getRows()},
-    m_colsCount{matrix.getCols()}
-  ,m_elements{new double*[matrix.getRows()]}
-{
-   for(int i = 0;i < matrix.getRows();++i)
-   {
-       matrix[i] = new double[matrix.getCols()]{};
-       for(int j = 0;j<matrix.getCols();++j)
-       {
-           m_elements[i][j] = matrix.at(i,j);
-       }
-   }
-}
-*/
+
+
 Matrix::~Matrix()
 {
     for(unsigned int i = 0; i < m_rowsCount;++i)
@@ -84,4 +72,18 @@ Matrix& Matrix::swapRows(unsigned int row1,unsigned int row2)
         swap(m_elements[row1][col] ,m_elements[row2][col]);
     }
     return *this;
+}
+
+
+unsigned int  Matrix::findRowMaxAbsValueOn(int col,int afterRow)
+{
+    int rowMaxAbsValue = afterRow;
+    for(int row = afterRow+1;row < m_rowsCount; ++row)
+    {
+        if(fabs(m_elements[row][col]) > fabs(m_elements[rowMaxAbsValue][col]))
+        {
+            rowMaxAbsValue = row;
+        }
+    }
+    return rowMaxAbsValue;
 }

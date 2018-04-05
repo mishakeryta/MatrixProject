@@ -4,6 +4,7 @@
 using namespace std;
 #include <stdexcept>
 #include <initializer_list>
+#include <cmath>
 
 class Matrix
 {
@@ -19,6 +20,7 @@ public:
     Matrix operator *(const Matrix& matr);
     Matrix& swapRows(unsigned int row1,unsigned int row2);
 
+    unsigned int findRowMaxAbsValueOn(int col,int afterRow);
     unsigned int getColsCount()const {return m_colsCount; }
     unsigned int getRowsCount() const{return m_rowsCount; }
 private:
